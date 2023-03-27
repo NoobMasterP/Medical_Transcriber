@@ -1,7 +1,6 @@
 package com.example.medical_transcriber.patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,11 +14,12 @@ public class PatientController {
 
     @Autowired
     public PatientController(PatientService patientService) {
-        this.patientService = new PatientService();
+        this.patientService = patientService;
     }
 
     @GetMapping
     public List<Patient> getPatient() {
+
         return patientService.getPatientList();
     }
 

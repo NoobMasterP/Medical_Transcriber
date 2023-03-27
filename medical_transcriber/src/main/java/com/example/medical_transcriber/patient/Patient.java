@@ -1,33 +1,47 @@
 package com.example.medical_transcriber.patient;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+@Entity
+@Table(name="central")
 public class Patient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "dob")
     private LocalDate dob;
+    @Column(name = "age")
     private Integer age;
-    private String email;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "auth_token")
     private String authToken;
-    private String user_type = "patient";
+    @Column(name = "type")
+    private String type = "patient";
 
     public Patient(Integer id) {
         this.id = id;
     }
 
-    public Patient(Integer id, String name, LocalDate dob, Integer age, String email) {
+    public Patient() {
+    }
+
+    public Patient(Integer id, String name, LocalDate dob, Integer age, String phone) {
         this.id = id;
         this.name = name;
         this.dob = dob;
         this.age = age;
-        this.email = email;
+        this.phone = phone;
     }
 
-    public Patient(String name, LocalDate dob, Integer age, String email) {
+    public Patient(String name, LocalDate dob, Integer age, String phone) {
         this.name = name;
         this.dob = dob;
         this.age = age;
-        this.email = email;
+        this.phone = phone;
     }
 
     public Integer getId() {
@@ -42,12 +56,12 @@ public class Patient {
         this.authToken = authToken;
     }
 
-    public String getUser_type() {
-        return user_type;
+    public String gettype() {
+        return type;
     }
 
-    public void setUser_type(String user_type) {
-        this.user_type = user_type;
+    public void settype(String type) {
+        this.type = type;
     }
 
     public void setId(Integer id) {
@@ -78,12 +92,12 @@ public class Patient {
         this.age = age;
     }
 
-    public String getEmail() {
-        return email;
+    public String getphone() {
+        return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setphone(String phone) {
+        this.phone = phone;
     }
 
 //    @Override
@@ -93,7 +107,7 @@ public class Patient {
 //                ", name='" + name + '\'' +
 //                ", dob=" + dob +
 //                ", age=" + age +
-//                ", email='" + email + '\'' +
+//                ", phone='" + phone + '\'' +
 //                '}';
 //    }
 
@@ -104,9 +118,9 @@ public class Patient {
                 ", name='" + name + '\'' +
                 ", dob=" + dob +
                 ", age=" + age +
-                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", authToken='" + authToken + '\'' +
-                ", user_type=" + user_type +
+                ", type=" + type +
                 '}';
     }
 }
