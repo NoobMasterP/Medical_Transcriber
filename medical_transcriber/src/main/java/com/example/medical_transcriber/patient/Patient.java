@@ -1,26 +1,24 @@
 package com.example.medical_transcriber.patient;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.Period;
+
 @Entity
 @Table(name="central")
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "dob")
     private LocalDate dob;
-    @Column(name = "age")
-    private Integer age;
-    @Column(name = "phone")
     private String phone;
-    @Column(name = "auth_token")
     private String authToken;
-    @Column(name = "type")
     private String type = "patient";
+    @Transient
+    private Integer age;
 
     public Patient(Integer id) {
         this.id = id;
@@ -29,18 +27,16 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(Integer id, String name, LocalDate dob, Integer age, String phone) {
+    public Patient(Integer id, String name, LocalDate dob, String phone) {
         this.id = id;
         this.name = name;
         this.dob = dob;
-        this.age = age;
         this.phone = phone;
     }
 
-    public Patient(String name, LocalDate dob, Integer age, String phone) {
+    public Patient(String name, LocalDate dob, String phone) {
         this.name = name;
         this.dob = dob;
-        this.age = age;
         this.phone = phone;
     }
 
@@ -85,7 +81,8 @@ public class Patient {
     }
 
     public Integer getAge() {
-        return age;
+
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {

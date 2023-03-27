@@ -19,14 +19,35 @@ public class PatientController {
 
     @GetMapping
     public List<Patient> getPatient() {
-
         return patientService.getPatientList();
+    }
+
+    public Patient getPatient(Integer id) {
+        return patientService.getPatientByID(id);
     }
 
     private HashMap<String, String> convert(String res) {
         HashMap<String, String> map = new HashMap<>();
         map.put("response", res);
         return map;
+    }
+
+    @PostMapping
+    public void registerNewPatient(@RequestBody Patient patient) {
+        patientService.addNewPatient(patient);
+    }
+
+    @DeleteMapping(path = "{patientID}")
+    public void deletePatient(@PathVariable("patientID") Integer patientID) {
+        patientService.deletePatient(patientID);
+    }
+
+    @PutMapping(path = "{patientID}")
+    public void updatePatient(
+            @PathVariable("patientID") Integer patientID,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String phone) {
+        patientService.updatePatient(patientID, name, phone);
     }
 
 //    @PostMapping("/login")

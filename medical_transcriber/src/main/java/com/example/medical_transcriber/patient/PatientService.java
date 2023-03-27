@@ -1,12 +1,16 @@
 package com.example.medical_transcriber.patient;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -20,21 +24,50 @@ public class PatientService {
 
 
     public List<Patient> getPatientList() {
-//        return List.of(
-//                new Patient(1, "Patient 1", LocalDate.of(2001, Month.DECEMBER, 24), 21, "987654321")
-//        );
-
         return patientRepository.findAll();
     }
 
-    public void addNewPatient(String name, LocalDate DOB, String email) {
-        int age = 0;
-        Period period = Period.between(DOB, LocalDate.now());
-        age = period.getYears();
-
-        Patient p = new Patient(2, name, DOB, age ,email);
+    public Patient getPatientByID(Integer id) {
+        return patientRepository.getReferenceById(id);
     }
 
+    public void addNewPatient(Patient patient) {
+        Optional<Patient> patientOptional = patientRepository.findPatientByPhone(patient.getphone());
+        if (patientOptional.isPresent()) {
+            throw new IllegalStateException("Phone is registered");
+        }
+
+        patientRepository.save(patient);
+    }
+
+    public void deletePatient(Integer patientID) {
+        boolean exists = patientRepository.existsById(patientID);
+        if (!exists) {
+            throw new IllegalStateException("Patient with ID " + patientID + " does not exist");
+        }
+
+        patientRepository.deleteById(patientID);
+    }
+
+    @Transactional
+    public void updatePatient(Integer patientID, String name, String phone) {
+
+        Patient patient = patientRepository.findById(patientID)
+                .orElseThrow(() -> new IllegalStateException("Patient with id " + patientID + " does not exist"));
+
+        if (name != null && name.length() > 0 && !Objects.equals(patient.getName(), name)) {
+            patient.setName(name);
+        }
+
+        if (phone != null && phone.length() == 10 && !Objects.equals(patient.getphone(), phone)) {
+            Optional<Patient> patientOptional = patientRepository.findPatientByPhone(phone);
+            if (patientOptional.isPresent()) {
+                throw new IllegalStateException("Phone number is already taken");
+            }
+
+            patient.setphone(phone);
+        }
+    }
 
 
 //    @Override
