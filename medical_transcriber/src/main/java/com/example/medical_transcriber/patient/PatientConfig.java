@@ -14,17 +14,17 @@ public class PatientConfig {
     @Bean
     CommandLineRunner commandLineRunner(PatientRepository repository) {
         return args -> {
-            Patient patient4 = new Patient(
-                    "Patient 4", LocalDate.of(2001, Month.DECEMBER, 24), "987654321"
-            );
-
-            Patient patient5 = new Patient(
-                    "Patient 5", LocalDate.of(2001, Month.SEPTEMBER, 15), "9875464321"
-            );
-
-            repository.saveAll(
-                    List.of(patient4, patient5)
-            );
+//            Patient patient4 = new Patient(
+//                    "Patient 4", LocalDate.of(2001, Month.DECEMBER, 24), "987654321"
+//            );
+//
+//            Patient patient5 = new Patient(
+//                    "Patient 5", LocalDate.of(2001, Month.SEPTEMBER, 15), "9875464321"
+//            );
+//
+//            repository.saveAll(
+//                    List.of(patient4, patient5)
+//            );
         };
     }
 }

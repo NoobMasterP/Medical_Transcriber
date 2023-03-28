@@ -32,7 +32,7 @@ public class PatientController {
         return map;
     }
 
-    @PostMapping
+    @PostMapping("")
     public void registerNewPatient(@RequestBody Patient patient) {
         patientService.addNewPatient(patient);
     }

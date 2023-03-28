@@ -32,7 +32,7 @@ public class PatientService {
     }
 
     public void addNewPatient(Patient patient) {
-        Optional<Patient> patientOptional = patientRepository.findPatientByPhone(patient.getphone());
+        Optional<Patient> patientOptional = patientRepository.findPatientByPhone(patient.getPhone());
         if (patientOptional.isPresent()) {
             throw new IllegalStateException("Phone is registered");
         }
@@ -59,13 +59,13 @@ public class PatientService {
             patient.setName(name);
         }
 
-        if (phone != null && phone.length() == 10 && !Objects.equals(patient.getphone(), phone)) {
+        if (phone != null && phone.length() == 10 && !Objects.equals(patient.getPhone(), phone)) {
             Optional<Patient> patientOptional = patientRepository.findPatientByPhone(phone);
             if (patientOptional.isPresent()) {
                 throw new IllegalStateException("Phone number is already taken");
             }
 
-            patient.setphone(phone);
+            patient.setPhone(phone);
         }
     }
 
